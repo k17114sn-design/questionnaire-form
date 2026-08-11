@@ -1,4 +1,4 @@
-<#
+﻿<#
   イベント当日、会場のWi-Fiでアプリを配信するための起動スクリプト。
   同一ネットワーク内の端末（子供のスマホ・タブレット）からアクセスできるよう 0.0.0.0 でバインドする。
 
@@ -40,7 +40,7 @@ $fwRule = Get-NetFirewallRule -DisplayName "GX Hero App" -ErrorAction SilentlyCo
 if (-not $fwRule) {
     Write-Warning "ファイアウォール許可ルール「GX Hero App」が見つかりません。"
     Write-Warning "管理者権限のPowerShellで以下を一度だけ実行してから再度起動してください："
-    Write-Warning "  New-NetFirewallRule -DisplayName `"GX Hero App`" -Direction Inbound -Protocol TCP -LocalPort $Port -Action Allow"
+    Write-Warning ('  New-NetFirewallRule -DisplayName ' + [char]34 + 'GX Hero App' + [char]34 + " -Direction Inbound -Protocol TCP -LocalPort $Port -Action Allow")
 }
 
 & "$root\.venv\Scripts\python.exe" -m uvicorn app.main:app --host 0.0.0.0 --port $Port
