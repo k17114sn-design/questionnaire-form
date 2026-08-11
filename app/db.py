@@ -4,12 +4,16 @@ import csv
 import io
 import json
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from .questions import QUESTIONS, strip_ruby
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "app.db"
+
+# クラウド上のサーバーはUTC(協定世界時)で動いていることが多いため、
+# 「回答日時」は常に日本時間(JST)で記録されるよう固定オフセットを明示する
+JST = timezone(timedelta(hours=9))
 
 # (DBカラム名, CSV見出し) のペア。CSV見出しは自治体職員が開いてそのまま分かるよう日本語にしている。
 CSV_SUMMARY_COLUMNS = [
@@ -70,7 +74,7 @@ def save_response(
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
-                datetime.now().isoformat(timespec="seconds"),
+                datetime.now(JST).isoformat(timespec="seconds"),
                 json.dumps(answers, ensure_ascii=False),
                 scores["nature"],
                 scores["inquiry"],
