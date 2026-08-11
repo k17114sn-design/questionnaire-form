@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card center-card">
+  <h1 class="title-small">管理画面ログイン</h1>
+  {% if error %}<p class="error-text">{{ error }}</p>{% endif %}
+  <form action="/admin/login" method="post" class="admin-login-form">
+    <input type="password" name="password" placeholder="パスワード" required autofocus>
+    <button type="submit" class="btn btn-primary">ログイン</button>
+  </form>
+</div>
+{% endblock %}

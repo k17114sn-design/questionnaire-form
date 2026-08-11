@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="loading" class="card center-card">
+  <div class="loading-spinner">🌀</div>
+  <p class="loading-text">ヒーローをよびだしちゅう…</p>
+</div>
+
+<div id="reveal" class="card center-card reveal-hidden" style="--hero-color: {{ hero.color }};">
+  <img class="hero-image" src="/static/images/heroes/{{ hero.slug }}.svg" alt="{{ hero.name }}">
+  <h1 class="hero-name">{{ hero.name_ruby | safe }}</h1>
+  <p class="hero-catch">{{ hero.catch | safe }}</p>
+
+  <p class="thanks-text">アンケートにこたえてくれて ありがとう！<br>これからも GXのとりくみに ちゅうもく してね 🌏</p>
+
+  <a href="/" class="btn btn-secondary">トップにもどる</a>
+</div>
+
+<script>
+  setTimeout(function () {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("reveal").classList.remove("reveal-hidden");
+  }, 1600);
+</script>
+{% endblock %}

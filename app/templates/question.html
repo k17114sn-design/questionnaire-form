@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" style="width: {{ progress }}%;"></div></div>
+    <div class="progress-text">{{ n }} / {{ total }}もん</div>
+  </div>
+
+  <div class="category-badge">{{ category_label | safe }}</div>
+  <h2 class="question-text">{{ question.text | safe }}</h2>
+
+  <form action="/question/{{ n }}" method="post" class="choice-form">
+    {% for choice in choices %}
+    <button type="submit" name="value" value="{{ choice.value }}"
+      class="choice-btn {% if selected == choice.value %}choice-selected{% endif %}">
+      <span class="choice-emoji">{{ choice.emoji }}</span>
+      <span class="choice-label">{{ choice.label | safe }}</span>
+    </button>
+    {% endfor %}
+  </form>
+
+  {% if n > 1 %}
+  <a href="/question/{{ n - 1 }}" class="back-link">← まえのもんにもどる</a>
+  {% endif %}
+</div>
+{% endblock %}

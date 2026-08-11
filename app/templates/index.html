@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card center-card">
+  <div class="floating-emoji">🌳🔬✨</div>
+  <h1 class="title">GXヒーロー<ruby>診断<rt>しんだん</rt></ruby></h1>
+  <p class="subtitle">しつもんにこたえて<br>きみだけの「GXヒーロー」をみつけよう！</p>
+  <p class="note">ぜんぶで{{ total }}もん・じかんは やく5ふん<br>おうちのひとと いっしょに こたえてね</p>
+  <form action="/start" method="post">
+    <button type="submit" class="btn btn-primary btn-large">はじめる 🚀</button>
+  </form>
+</div>
+{% endblock %}

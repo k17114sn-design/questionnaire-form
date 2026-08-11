@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card admin-card">
+  <div class="admin-header">
+    <h1 class="title-small">回答一覧（{{ rows | length }}件）</h1>
+    <div class="admin-actions">
+      <a href="/admin/export.csv" class="btn btn-secondary btn-small">CSVダウンロード</a>
+      <a href="/admin/logout" class="btn btn-outline btn-small">ログアウト</a>
+    </div>
+  </div>
+  <div class="qr-section">
+    <h2 class="title-small">QRコード発行</h2>
+    <form action="/admin" method="get" class="qr-form">
+      <input type="url" name="qr_url" placeholder="https://例：公開後のアプリURL" value="{{ qr_url or '' }}" required>
+      <button type="submit" class="btn btn-secondary btn-small">QR作成</button>
+    </form>
+    {% if qr_url %}
+    <div class="qr-preview">
+      <img src="/admin/qr?url={{ qr_url | urlencode }}" alt="QRコード" width="200" height="200">
+      <p class="qr-hint">画像を右クリック（長押し）で保存し、チラシ等に印刷してください</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>日時</th>
+          <th>ヒーロータイプ</th>
+          {% for label in category_labels.values() %}<th>{{ label }}</th>{% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row["id"] }}</td>
+          <td>{{ row["created_at"] }}</td>
+          <td>{{ row["hero_type"] }}</td>
+          <td>{{ row["score_nature"] }}</td>
+          <td>{{ row["score_inquiry"] }}</td>
+          <td>{{ row["score_creativity"] }}</td>
+          <td>{{ row["score_cooperation"] }}</td>
+          <td>{{ row["score_action"] }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8">まだ回答がありません</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
