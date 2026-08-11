@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: maniwa-gx-hero-app
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: SECRET_KEY
+        generateValue: true
+    # 無料プランは永続ディスクを利用できないため、再起動・再デプロイのたびに
+    # data/app.db（SQLite）が消える点に注意。本番の予備系として継続利用する場合は
+    # Starterプラン以上に上げたうえで、以下のようなディスク設定を追加すること。
+    # disk:
+    #   name: gx-hero-data
+    #   mountPath: /app/data
+    #   sizeGB: 1
