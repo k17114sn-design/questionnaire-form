@@ -7,19 +7,20 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
+from .questions import QUESTIONS, strip_ruby
+
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "app.db"
 
-CSV_HEADERS = [
-    "id",
-    "created_at",
-    "score_nature",
-    "score_inquiry",
-    "score_creativity",
-    "score_cooperation",
-    "score_action",
-    "hero_type",
-    "answers",
-    "user_agent",
+# (DBカラム名, CSV見出し) のペア。CSV見出しは自治体職員が開いてそのまま分かるよう日本語にしている。
+CSV_SUMMARY_COLUMNS = [
+    ("id", "ID"),
+    ("created_at", "回答日時"),
+    ("hero_type", "ヒーロータイプ"),
+    ("score_nature", "自然志向"),
+    ("score_inquiry", "探究心"),
+    ("score_creativity", "創造性"),
+    ("score_cooperation", "協調性"),
+    ("score_action", "行動力"),
 ]
 
 
@@ -92,9 +93,14 @@ def list_responses() -> list[sqlite3.Row]:
 
 def export_csv() -> str:
     rows = list_responses()
+    question_headers = [f"Q{q['id']}_{strip_ruby(q['text'])}" for q in QUESTIONS]
+
     buffer = io.StringIO()
-    writer = csv.DictWriter(buffer, fieldnames=CSV_HEADERS)
-    writer.writeheader()
+    writer = csv.writer(buffer)
+    writer.writerow([label for _, label in CSV_SUMMARY_COLUMNS] + question_headers + ["端末情報"])
     for row in rows:
-        writer.writerow({key: row[key] for key in CSV_HEADERS})
+        answers = json.loads(row["answers"])
+        writer.writerow(
+            [row[key] for key, _ in CSV_SUMMARY_COLUMNS] + answers + [row["user_agent"]]
+        )
     return buffer.getvalue()

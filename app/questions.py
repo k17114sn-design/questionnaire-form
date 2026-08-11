@@ -4,6 +4,17 @@
 （保存・集計用の CATEGORY_LABELS はふりがな無しの素の表記のまま）
 """
 
+import re
+
+_RUBY_RT_RE = re.compile(r"<rt>.*?</rt>")
+_RUBY_TAG_RE = re.compile(r"</?ruby>")
+
+
+def strip_ruby(html_text: str) -> str:
+    """<ruby>タグ付きテキストからふりがなを除いた素のテキストを取り出す（CSV等の非HTML出力用）"""
+    text = _RUBY_RT_RE.sub("", html_text)
+    return _RUBY_TAG_RE.sub("", text)
+
 CATEGORY_LABELS = {
     "nature": "自然志向",
     "inquiry": "探究心",
