@@ -96,6 +96,7 @@ def export_csv() -> str:
     question_headers = [f"Q{q['id']}_{strip_ruby(q['text'])}" for q in QUESTIONS]
 
     buffer = io.StringIO()
+    buffer.write(chr(0xFEFF))  # UTF-8 BOM。無いとExcelでCSVを開いた際に日本語が文字化けする
     writer = csv.writer(buffer)
     writer.writerow([label for _, label in CSV_SUMMARY_COLUMNS] + question_headers + ["端末情報"])
     for row in rows:
