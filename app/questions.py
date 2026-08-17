@@ -59,9 +59,9 @@ QUESTIONS = [
 TOTAL_QUESTIONS = len(QUESTIONS)
 
 CHOICES = [
-    {"value": 1, "label": "そう<ruby>思<rt>おも</rt></ruby>わない", "emoji": "😐"},
-    {"value": 2, "label": "あまりそう<ruby>思<rt>おも</rt></ruby>わない", "emoji": "🙂"},
-    {"value": 3, "label": "どちらともいえない", "emoji": "😊"},
-    {"value": 4, "label": "そう<ruby>思<rt>おも</rt></ruby>う", "emoji": "😄"},
     {"value": 5, "label": "とてもそう<ruby>思<rt>おも</rt></ruby>う", "emoji": "🤩"},
+    {"value": 4, "label": "そう<ruby>思<rt>おも</rt></ruby>う", "emoji": "😄"},
+    {"value": 3, "label": "どちらともいえない", "emoji": "😊"},
+    {"value": 2, "label": "あまりそう<ruby>思<rt>おも</rt></ruby>わない", "emoji": "🙂"},
+    {"value": 1, "label": "そう<ruby>思<rt>おも</rt></ruby>わない", "emoji": "😐"},
 ]
