@@ -7,7 +7,7 @@ import sqlite3
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .questions import QUESTIONS, strip_ruby
+from .questions import CHOICE_LABELS, QUESTIONS, strip_ruby
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "app.db"
 
@@ -105,7 +105,8 @@ def export_csv() -> str:
     writer.writerow([label for _, label in CSV_SUMMARY_COLUMNS] + question_headers + ["端末情報"])
     for row in rows:
         answers = json.loads(row["answers"])
+        answer_labels = [f"{a}（{CHOICE_LABELS[a]}）" for a in answers]
         writer.writerow(
-            [row[key] for key, _ in CSV_SUMMARY_COLUMNS] + answers + [row["user_agent"]]
+            [row[key] for key, _ in CSV_SUMMARY_COLUMNS] + answer_labels + [row["user_agent"]]
         )
     return buffer.getvalue()

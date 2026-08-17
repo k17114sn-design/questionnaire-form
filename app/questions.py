@@ -65,3 +65,6 @@ CHOICES = [
     {"value": 2, "label": "あまりそう<ruby>思<rt>おも</rt></ruby>わない", "emoji": "🙂"},
     {"value": 1, "label": "そう<ruby>思<rt>おも</rt></ruby>わない", "emoji": "😐"},
 ]
+
+# CSV出力などで使う、ふりがな無しの選択肢テキスト（1〜5 -> 日本語ラベル）
+CHOICE_LABELS = {c["value"]: strip_ruby(c["label"]) for c in CHOICES}
