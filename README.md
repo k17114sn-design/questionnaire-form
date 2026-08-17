@@ -111,4 +111,5 @@ docker run -p 8080:8080 -e ADMIN_PASSWORD=xxxx -e SECRET_KEY=xxxx gx-hero-app
 
 ## 今後差し替える想定のファイル
 
-- `app/static/images/heroes/*.svg` … 10種のヒーロー画像（現在はプレースホルダー）。本番イラストが決まり次第、同名ファイルで差し替えるだけでよい。
+- `app/static/images/heroes/*` … 10種のヒーロー画像（現在はプレースホルダーのSVG）。本番イラストが決まり次第、**同じファイル名（例: `mori_science_ranger`）であれば拡張子を問わず**（svg / png / jpg / jpeg / webp）差し替えるだけで自動的に認識される。10種類のファイル名一覧は`app/scoring.py`の`slug`を参照。
+  - 同じ名前で拡張子違いのファイルが複数存在する場合はsvgが優先されるため、差し替え時は古いプレースホルダーのsvgファイルを削除しておくこと。

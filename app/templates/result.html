@@ -6,7 +6,7 @@
 </div>
 
 <div id="reveal" class="card center-card reveal-hidden" style="--hero-color: {{ hero.color }};">
-  <img class="hero-image" src="/static/images/heroes/{{ hero.slug }}.svg" alt="{{ hero.name }}">
+  <img class="hero-image" src="{{ hero_image_url }}" alt="{{ hero.name }}">
   <h1 class="hero-name">{{ hero.name_ruby | safe }}</h1>
   <p class="hero-catch">{{ hero.catch | safe }}</p>
 

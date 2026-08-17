@@ -17,6 +17,17 @@ ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "maniwa-gx-admin")
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-change-me")
 
 BASE_DIR = os.path.dirname(__file__)
+HEROES_IMAGE_DIR = os.path.join(BASE_DIR, "static", "images", "heroes")
+HEROES_IMAGE_EXTENSIONS = ["svg", "png", "jpg", "jpeg", "webp"]
+
+
+def resolve_hero_image_url(slug: str) -> str:
+    """heroesフォルダ内に置かれている実際の拡張子を自動判定する。
+    差し替え作業者は拡張子を気にせず同じファイル名（例: mori_science_ranger.png）を置くだけでよい。"""
+    for ext in HEROES_IMAGE_EXTENSIONS:
+        if os.path.isfile(os.path.join(HEROES_IMAGE_DIR, f"{slug}.{ext}")):
+            return f"/static/images/heroes/{slug}.{ext}"
+    return f"/static/images/heroes/{slug}.svg"
 
 app = FastAPI(title="GXヒーロー診断")
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY, same_site="lax")
@@ -89,7 +100,10 @@ def result(request: Request):
         db.save_response(answers, scores, hero["name"], request.headers.get("user-agent"))
         request.session["saved"] = True
 
-    return templates.TemplateResponse(request, "result.html", {"hero": hero})
+    hero_image_url = resolve_hero_image_url(hero["slug"])
+    return templates.TemplateResponse(
+        request, "result.html", {"hero": hero, "hero_image_url": hero_image_url}
+    )
 
 
 # ---- 管理画面 ----
